@@ -1,0 +1,25 @@
+
+import javax.swing.JOptionPane;
+
+public class MenuSencillo {
+
+	public static void main(String[] args) {
+		int opcion = 0; //INICIALIZAMOS OPCION, LA IGUALAMOS A 0 PARA PODER DARLE VALORES
+		String nombre = null, valor;
+
+		do {
+			valor = JOptionPane.showInputDialog("1. Crear archivo\n2. Mostrar archivo\n3. Terminar");//MENU DE OPCIONES
+			opcion = Integer.parseInt(valor);
+			if (opcion == 1) {//ALMACENAMOS LA INFORMACION DE FORMA TEMPORAL
+				nombre = JOptionPane.showInputDialog("Introduzca los datos que quiere almacenar");
+
+				JOptionPane.showMessageDialog(null, "Archivo creado con exito ");
+
+			} else if (opcion == 2) {	//SE MUESTRA EL TEXTO GUARDADO EN EL ANTERIOR PASO
+
+				JOptionPane.showMessageDialog(null, " " + nombre);
+			}
+		} while (opcion != 3); //SALIMOS DEL MENU
+		
+	}
+}

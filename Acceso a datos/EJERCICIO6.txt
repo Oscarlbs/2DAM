@@ -1,0 +1,215 @@
+import java.io.File;
+import java.io.RandomAccessFile;
+import java.util.Scanner;
+
+public class Tarea6 {
+
+	// Declaramos variable del scanner para poder leer datos introducidos por teclado.
+	static Scanner teclado = new Scanner(System.in);
+
+	// Creamos el menú con las diferentes opciones y se lo imprimimos al usuario por consola.
+	
+	
+	public static void menu() {
+
+		int opcion = 0;
+		do {
+
+			//menu de opciones 
+			
+			System.out.println("Menú");
+			System.out.println("1. Añadir double al principio");
+			System.out.println("2. Añadir double al final");
+			System.out.println("3. Mostrar fichero");
+			System.out.println("4. Sustituir double por otro double");
+			System.out.println("5. Exit");
+			
+			try {
+				opcion = teclado.nextInt();
+			} catch (Exception e) {
+
+				e.printStackTrace();
+			}
+
+			switch (opcion) {
+			case 1: {
+				crearFicheroPrincipio(); // Opción 1 del menú.
+
+				break;
+			}
+			case 2: {
+				crearFicheroFinal(); // Opción 2 del menú.
+
+				break;
+			}
+			case 3: {
+				leerFichero(); // Opción 3 del menú.
+				break;
+			}
+			case 4: {
+				sustituirDoubles(); // Opción 4 del menú.
+				break;
+			}
+			case 5: {
+				System.out.println("Gracias por probar nuestro programa"); // Opción 5 del menú.
+				break;
+			}
+			default: {
+				System.out.println("Opcion incorrecta"); // Esto sucede si introducimos un dato no pedido.
+			}
+			}
+		} while (opcion != 5);
+
+	}
+
+	// Método para crear fichero con double al principio y control de excepciones.
+
+	public static void crearFicheroPrincipio() {
+		RandomAccessFile raf = null;
+		try {
+			File fichero = new File("fichero.obj");
+			raf = new RandomAccessFile(fichero, "rw");
+			addAlPrincipio(raf);
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		} finally {
+			try {
+				if (raf != null) {
+					raf.close();
+				}
+			} catch (Exception e) {
+				System.out.println(e.getMessage());
+			}
+		}
+
+	}
+
+	// Pide double y lo almacena.
+
+	public static void addAlPrincipio(RandomAccessFile raf) throws Exception {
+		Scanner teclado = new Scanner(System.in);
+		double num;
+		System.out.println(
+				"Introduce un número de tipo *Double* (decimal) que quieres escribir al principio del fichero: \n");
+		num = teclado.nextDouble();
+		raf.seek(0);
+		raf.writeDouble(num);
+
+	}
+
+	// Método para crear fichero con double al final y control de excepciones.
+
+	public static void crearFicheroFinal() {
+		RandomAccessFile raf = null;
+		try {
+			File fichero = new File("fichero.obj");
+			raf = new RandomAccessFile(fichero, "rw");
+			addAlFinal(raf);
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		} finally {
+			try {
+				if (raf != null) {
+					raf.close();
+				}
+			} catch (Exception e) {
+				System.out.println(e.getMessage());
+			}
+		}
+	}
+
+	// Pide double y lo almacena.
+
+	public static void addAlFinal(RandomAccessFile raf) throws Exception {
+		Scanner teclado = new Scanner(System.in);
+		double num;
+		System.out.println(
+				"Introduce un número de tipo *Double* (decimal) que quieres escribir al final del fichero: \n");
+		num = teclado.nextDouble();
+		raf.seek(raf.length());
+		raf.writeDouble(num);
+
+	}
+
+	// Método para leer fichero completo y control de excepciones.
+
+	public static void leerFichero() {
+		RandomAccessFile raf = null;
+		try {
+			File fichero = new File("fichero.obj");
+			raf = new RandomAccessFile(fichero, "r");
+			mostrarFichero(raf);
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		} finally {
+			try {
+				if (raf != null) {
+					raf.close();
+				}
+			} catch (Exception e) {
+				System.out.println(e.getMessage());
+			}
+		}
+	}
+
+	// Método para mostrar fichero completo.
+
+	public static void mostrarFichero(RandomAccessFile raf) throws Exception {
+		double num;
+		raf.seek(0);
+		while (true) {
+			num = raf.readDouble();
+			System.out.println("\n" + num + "\n");
+		}
+	}
+
+	// Método para sustituir un double existente ya en fichero, por otro double y
+	// control de excepciones.
+
+	public static void sustituirDoubles() {
+		Scanner teclado = new Scanner(System.in);
+		double sustituir, nuevo, numero;
+		int i = 0;
+
+		RandomAccessFile raf = null;
+
+		try {
+			File fichero = new File("fichero.obj");
+			raf = new RandomAccessFile(fichero, "rw");
+			raf.seek(0);
+
+			System.out.println("Introduce el valor del double actual: \n");
+			sustituir = teclado.nextDouble();
+
+			System.out.println("Introduce el nuevo valor del double: \n");
+			nuevo = teclado.nextDouble();
+
+			// Lee fichero y devuelve la posición del double dentro del fichero.
+
+			while (true) {
+				numero = raf.readDouble();
+				if (numero == sustituir) {
+					System.out.println("Double encontrado en la posición:  " + i + " del fichero.\n");
+					raf.seek(i * 8);
+					raf.writeDouble(nuevo);
+				}
+				i++;
+			}
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		} finally {
+			try {
+				if (raf != null) {
+					raf.close();
+				}
+			} catch (Exception e2) {
+				System.out.println(e2.getMessage());
+			}
+		}
+
+	}
+
+	public static void main(String[] args) {
+		menu();
+	}
+}

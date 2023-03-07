@@ -1,0 +1,45 @@
+int segundos;
+		comenzar: while (true) {
+
+			// SE PIDE POR CONSOLA QUE INTRODUZCAS EL NUMERO DE SEGUNDOS
+			System.out.println("-----------------------------------");
+			System.out.print("Introduzca el valor de segundos:");
+			// EL SCANNER RECOGE LA INFORMACION ESCRITA POR EL USUARIO
+			Scanner recogida = new Scanner(System.in);
+			segundos = recogida.nextInt();
+
+			// Se introduce el tiempo máximo del partido y se pasan los segundos a minutos
+			if (segundos == 5400) {
+				System.out.println("El minuto es el 90");
+			} else if (segundos < 5400) {
+				// SE CREA UNA FORMULA PARA CALCULAR EL MINUTO
+				System.out.println("El minuto es el " + (Math.round((segundos / 60)) + 1));
+			} else {
+				// EN CASO DE SER MAYOR DEL TIEMPO DE PARTIDO SALE EL SYSO
+				System.out.println("El partido ya ha acabado en el segundo 5400");
+			}
+			// SE APLICA EL DESCANSO ENTRE DOS TIEMPOS
+			if ((segundos > 2700) & (segundos < 4500)) {
+
+				System.out.println("El partido esta en el descanso");
+			}
+			// OPCION DE SEGUIR INTRODUCIENDO NUMEROS
+			System.out.print("¿Otro valor (s/n)? ");
+
+			// char tecla = (char) System.in.read();
+			// String val = recogida.next();
+			char[] caracter = recogida.next().toCharArray();
+			if (caracter[0] == 'n') {
+				// if(tecla == 'n') {
+				System.out.println("...............BYE................");
+				break comenzar;
+				// } elseif(tecla == 's') {
+			} else if (caracter[0] == 's') {
+				continue comenzar;
+			} else {
+				System.out.println("Tecla no permitida. Reanudando....");
+				continue comenzar;
+			}
+
+		}
+	}
